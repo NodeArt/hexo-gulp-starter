@@ -36,26 +36,26 @@ gulp.task('generate', function(cb) {
   hexo.init()
     .then(() => hexo.call('clean'))
     .then(function() {
-    return hexo.call('generate', {
-      watch: false
-    });
-  }).then(function() {
-    return hexo.exit();
-  }).then(function() {
-    return cb()
-  }).catch(function(err) {
-    console.error(err);
-    hexo.exit(err);
-    return cb(err);
-  })
+      return hexo.call('generate', {
+        watch: false
+      });
+    }).then(function() {
+      return hexo.exit();
+    }).then(function() {
+      return cb()
+    }).catch(function(err) {
+      console.error(err);
+      hexo.exit(err);
+      return cb(err);
+    })
 });
 
 gulp.task('build', function(cb) {
-  runSequence('clean', 'generate', 'minify-html', 'minify-css', 'minify-js', 'minify-img', cb)
+  runSequence('clean', 'clean-db', 'generate', 'minify-html', 'minify-css', 'minify-js', 'minify-img', cb)
 });
 
 gulp.task('pre-watch', function (cb) {
-  runSequence('clean', 'generate', 'minify-css', 'minify-js', 'minify-img', cb)
+  runSequence('clean', 'clean-db', 'generate', 'minify-css', 'minify-js', 'minify-img', cb)
 });
 
 gulp.task('clean-db', function (cb) {
